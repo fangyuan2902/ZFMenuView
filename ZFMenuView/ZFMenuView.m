@@ -147,7 +147,6 @@
     [path moveToPoint: CGPointMake(0, _topMargin + 5.0)];
     [path addArcWithCenter: bottomLeftArcCenter radius: 5.0 startAngle: -M_PI endAngle: -M_PI-M_PI_2 clockwise: NO];
     [path addArcWithCenter: bottomRightArcCenter radius: 5.0 startAngle: -M_PI-M_PI_2 endAngle: -M_PI*2 clockwise: NO];
-    [path addLineToPoint: CGPointMake(self.width, self.height - bottomMargin + 5.0)];
     [path addArcWithCenter: topRightArcCenter radius: 5.0 startAngle: 0 endAngle: -M_PI_2 clockwise: NO];
     [path addArcWithCenter: topLeftArcCenter radius: 5.0 startAngle: -M_PI_2 endAngle: -M_PI clockwise: NO];
     
