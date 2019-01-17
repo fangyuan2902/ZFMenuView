@@ -15,17 +15,11 @@
 @implementation ZFMenuAction
 
 + (instancetype)actionWithTitle:(NSString *)title image:(UIImage *)image handler:(void (^)(ZFMenuAction *action))handler {
-    ZFMenuAction *action = [[ZFMenuAction alloc] initWithTitle:title image:image handler:handler];
+    ZFMenuAction *action = [[ZFMenuAction alloc] init];
+    action.title = [NSString stringWithFormat:@"  %@",title];
+    action.image = image;
+    action.handler = [handler copy];
     return action;
-}
-
-- (instancetype)initWithTitle:(NSString *)title image:(UIImage *)image handler:(void (^)(ZFMenuAction *action))handler {
-    if (self = [super init]) {
-        _title = [NSString stringWithFormat:@"  %@",title];
-        _image = image;
-        _handler = [handler copy];
-    }
-    return self;
 }
 
 @end
@@ -145,22 +139,23 @@
     CAShapeLayer *maskLayer = [CAShapeLayer layer];
     CGFloat bottomMargin = 0;
     CGPoint topRightArcCenter = CGPointMake(self.width - 5.0, _topMargin + 5.0);
+    CGPoint topLeftArcCenter = CGPointMake(5.0, _topMargin + 5.0);
     CGPoint bottomRightArcCenter = CGPointMake(self.width - 5.0, self.height - bottomMargin - 5.0);
     CGPoint bottomLeftArcCenter = CGPointMake(5.0, self.height - bottomMargin - 5.0);
     
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint: CGPointMake(0, _topMargin + 5.0)];
-    [path addLineToPoint: CGPointMake(0, bottomLeftArcCenter.y)];
     [path addArcWithCenter: bottomLeftArcCenter radius: 5.0 startAngle: -M_PI endAngle: -M_PI-M_PI_2 clockwise: NO];
-    [path addLineToPoint: CGPointMake(self.width - 5.0, self.height - bottomMargin)];
     [path addArcWithCenter: bottomRightArcCenter radius: 5.0 startAngle: -M_PI-M_PI_2 endAngle: -M_PI*2 clockwise: NO];
     [path addLineToPoint: CGPointMake(self.width, self.height - bottomMargin + 5.0)];
     [path addArcWithCenter: topRightArcCenter radius: 5.0 startAngle: 0 endAngle: -M_PI_2 clockwise: NO];
+    [path addArcWithCenter: topLeftArcCenter radius: 5.0 startAngle: -M_PI_2 endAngle: -M_PI clockwise: NO];
     
     [path addLineToPoint: CGPointMake(_arrowPosition + kArrowWidth, _topMargin)];
     [path addLineToPoint: CGPointMake(_arrowPosition + 0.5 * kArrowWidth, 0)];
     [path addLineToPoint: CGPointMake(_arrowPosition, _topMargin)];
     [path addLineToPoint: CGPointMake(5.0, _topMargin)];
+
     [path closePath];
     maskLayer.path = path.CGPath;
     return maskLayer;
